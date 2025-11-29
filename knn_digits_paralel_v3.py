@@ -67,7 +67,7 @@ if rank == 0:
     print(f"Tiempo Comunicación: {(t_bcast_end - t_bcast_start) + (t_scatter_end - t_scatter_start) + (t_gather_end - t_gather_start):.4f} s")
     print(f"Tiempo Computación (KNN puro): {t_compute_end - t_compute_start:.4f} s")
 
-    with open("knn_times.csv", "a") as f:
+    with open("knn_times_2.csv", "a") as f:
         f.write(f"{size},{accuracy:.4f},{t_total_end - t_total_start:.4f},{t_compute_end - t_compute_start:.4f},{(t_bcast_end - t_bcast_start) + (t_scatter_end - t_scatter_start) + (t_gather_end - t_gather_start):.4f}\n")
 
     print("✅ Resultados guardados en knn_times.csv\n")
