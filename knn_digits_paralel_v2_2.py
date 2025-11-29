@@ -16,7 +16,7 @@ t_total_start = time.time()
 # Solo el proceso 0 carga los datos
 if rank == 0:
     # Leer MNIST desde archivo local
-    data = np.load("mnist.npz")
+    data = np.load("mnist2.npz")
     X_train, y_train = data["x_train"], data["y_train"]
     X_test, y_test = data["x_test"], data["y_test"]
 
@@ -34,7 +34,10 @@ t_bcast_end = time.time()
 
 # Dividir X_test en partes (scatter)
 t_scatter_start = time.time()
-X_test_parts = np.array_split(X_test, size) if rank == 0 else None
+if rank == 0:
+    X_test_parts = np.array_split(X_test, size)
+else:
+    X_test_parts = None
 local_X_test = comm.scatter(X_test_parts, root=0)
 t_scatter_end = time.time()
 
@@ -62,7 +65,7 @@ if rank == 0:
     print(f"Tiempo Comunicación: {(t_bcast_end - t_bcast_start) + (t_scatter_end - t_scatter_start) + (t_gather_end - t_gather_start):.4f} s")
     print(f"Tiempo Computación (KNN puro): {t_compute_end - t_compute_start:.4f} s")
 
-    with open("knn_times_v2.2.csv", "a") as f:
+    with open("knn_times_v2.2.med.csv", "a") as f:
         f.write(f"{size},{accuracy:.4f},{t_total_end - t_total_start:.4f},{t_compute_end - t_compute_start:.4f},{(t_bcast_end - t_bcast_start) + (t_scatter_end - t_scatter_start) + (t_gather_end - t_gather_start):.4f}\n")
 
     print("Resultados guardados en knn_times_v2_2.csv\n")

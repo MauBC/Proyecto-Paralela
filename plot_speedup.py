@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Cargar CSV
-data = np.loadtxt("knn_times_v2.2.csv", delimiter=",")
+data = np.loadtxt("knn_times_v1.csv", delimiter=",")
 
 # Extraer columnas
 p = data[:,0].astype(int)
@@ -44,5 +44,5 @@ plt.grid(True)
 
 plt.tight_layout()
 #plt.show()
-plt.savefig("speedup_plot_v2.2.png", dpi=300)
+plt.savefig("speedup_plot_v1.png", dpi=300)
 print("✅ Gráfico guardado como speedup_plot.png")
